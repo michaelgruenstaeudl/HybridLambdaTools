@@ -142,8 +142,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Converting a phylogenetic \
     tree in Newick format into input for Hybrid-Lambda (Zhu et al. 2013, \
     arXiv:1303.0673); '+__copyright__)
-    parser.add_argument('-t', '--tree', help='name of input tree',
-                        default="infile.tre", required=True)
+    parser.add_argument('-t', '--tree', help='name of file containing input \
+    tree ', default="infile.tre", required=True)
     parser.add_argument('-p', '--parentinfo', help='info on parental taxa of \
     hybrids; format: <parent1>:<likelih.parent1>,<parent2>:<likelih.parent2>',
                         default="A:0.6,B:0.4", required=True)
