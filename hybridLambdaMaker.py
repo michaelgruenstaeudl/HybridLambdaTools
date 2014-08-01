@@ -58,10 +58,11 @@ def addHybrDict(intree, hybrDict):
     for key, val in hybrDict.iteritems():
 
         # 1. Replace parent's brlen with adjusted brlen
-        if not intree.find(key):
-            print colored("Error: Specified hybrid parent not present in \
-                           input tree.", 'red')
-            break
+        # print key, val
+        # print intree
+        if not key in intree:
+            print colored("Error: Specified hybrid parent not present in input tree.\n", 'red')
+            sys.exit()
         else:
             # Parse out the branch length immediately following the key,
             # save as "brlen"; then replace said branch length with
@@ -92,6 +93,17 @@ def addHybrDict(intree, hybrDict):
 def main(treeName, parentInfo):
     # Reading tree as string
     # treeStr = open(treeName, "r").read()
+    import re
+    search = re.search('\w+:(\d*\.\d+),\w+:(\d*\.\d+)', parentInfo, \
+            re.IGNORECASE)
+    if search:
+            alik = search.group(1)
+            blik = search.group(2)
+    
+    if alik == blik:
+        print colored("Parent likelihoods must not be the same", "red")
+        sys.exit()
+
     treelines = open(treeName, "r").readlines()
     treeStrs = []
     for line in treelines:
@@ -107,9 +119,11 @@ def main(treeName, parentInfo):
         # Placeholder to potentially modify tree further
 
         # Left-ladderize tree
-        tree.ladderize(ascending=True)
+        tree.ladderize(ascending=False)
         treeStr = tree.as_string('newick')
-
+   
+        # remove [&U]
+        treeStr = treeStr[4:]
         # Parsing parentInfo into dictionary
         aDict = {}
         for i in parentInfo.split(","):
@@ -142,8 +156,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Converting a phylogenetic \
     tree in Newick format into input for Hybrid-Lambda (Zhu et al. 2013, \
     arXiv:1303.0673); '+__copyright__)
-    parser.add_argument('-t', '--tree', help='name of file containing input \
-    tree ', default="infile.tre", required=True)
+    parser.add_argument('-t', '--tree', help='name of input tree',
+                        default="infile.tre", required=True)
     parser.add_argument('-p', '--parentinfo', help='info on parental taxa of \
     hybrids; format: <parent1>:<likelih.parent1>,<parent2>:<likelih.parent2>',
                         default="A:0.6,B:0.4", required=True)
