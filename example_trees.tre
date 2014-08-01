@@ -1,0 +1,14 @@
+# A set of eight example trees.
+# Author = "Michael Gruenstaeudl, PhD"
+# Email = "gruenstaeudl.1@osu.edu"
+# Version = "2014.07.31.1400"
+
+(((a:1,b:1):1,c:2):1,d:3);                                                      # With branch lengths, no root length; ultrametric
+(((a:1,d:1)s7:1,b:2)s6:1,c:3)s5;                                                # With branch lengths and internal labels; no root length; ultrametric
+(((a:1,d:1)s7:1,b:2)s6:1,c:3)s5:1.0;                                            # With branch lengths, internal labels and root length; ultrametric
+(((A:1.0,B:1.0):1.0,(C:1.0,D:1.0):1.0):1.0,E:3.0):4.0;                          # Default; ultrametric
+(((C:1.0,D:1.0):1.0,E:3.0):1.0,(A:1.0,B:1.0):1.0):4.0;                          # Default, not left-ladderized; ultrametric
+(((Taxon1:1,2ndTaxon:1)s9:1,(Taxon3:1,4thTaxon:1)s8:1.0)s7:1.0,Outgr:3.0)s6:4.0; # Difficult taxon names
+# This is a random comment line.
+(A:0.55,(B:0.82,(C:0.74,(D:0.42,E:0.64):0.24):0.15):0.2):0.3;                   # Not left-ladderized; not ultrametric
+((((Homo:0.21,Pongo:0.21)[Family: Hominidae]:0.28,Macaca:0.49):0.13,Ateles:0.62):0.38,Galago:1.00)[Order: Primates]; # With square bracket comments
