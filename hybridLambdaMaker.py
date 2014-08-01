@@ -4,7 +4,7 @@ Hybrid-Lambda (Zhu et al. 2013, arXiv:1303.0673)'''
 __author__ = "Michael Gruenstaeudl, PhD"
 __copyright__ = "Copyright (C) 2014 Michael Gruenstaeudl"
 __email__ = "gruenstaeudl.1@osu.edu"
-__version__ = "2014.07.31.1400"
+__version__ = "2014.08.01.1700"
 __status__ = "Testing"
 
 #####################
@@ -60,8 +60,9 @@ def addHybrDict(intree, hybrDict):
         # 1. Replace parent's brlen with adjusted brlen
         # print key, val
         # print intree
-        if not key in intree:
-            print colored("Error: Specified hybrid parent not present in input tree.\n", 'red')
+        if key not in intree:
+            print colored("Error: Specified hybrid parent not present in input \
+tree.\n", 'red')
             sys.exit()
         else:
             # Parse out the branch length immediately following the key,
@@ -94,12 +95,12 @@ def main(treeName, parentInfo):
     # Reading tree as string
     # treeStr = open(treeName, "r").read()
     import re
-    search = re.search('\w+:(\d*\.\d+),\w+:(\d*\.\d+)', parentInfo, \
-            re.IGNORECASE)
+    search = re.search('\w+:(\d*\.\d+),\w+:(\d*\.\d+)', parentInfo,
+                       re.IGNORECASE)
     if search:
             alik = search.group(1)
             blik = search.group(2)
-    
+   
     if alik == blik:
         print colored("Parent likelihoods must not be the same", "red")
         sys.exit()
@@ -121,7 +122,7 @@ def main(treeName, parentInfo):
         # Left-ladderize tree
         tree.ladderize(ascending=False)
         treeStr = tree.as_string('newick')
-   
+
         # remove [&U]
         treeStr = treeStr[4:]
         # Parsing parentInfo into dictionary
