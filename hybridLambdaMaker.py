@@ -95,17 +95,17 @@ input tree.\n  Quitting ...\n", 'red')
 ########
 
 def main(treeName, parentInfo):
-    # Reading tree as string
-    # treeStr = open(treeName, "r").read()
 
-    search = re.search('\w+:(\d*\.\d+),\w+:(\d*\.\d+)', parentInfo,
-                       re.IGNORECASE)
-    if search:
+    # If hyrbid mode: confirm that parent likelihoods unequal
+    if "," in parentInfo:
+        search = re.search('\w+:(\d*\.\d+),\w+:(\d*\.\d+)', parentInfo,
+                           re.IGNORECASE)
         if search.group(1) == search.group(2):
             print colored("  ERROR: Parent likelihoods must not be the \
 same.\n  Quitting ...\n", "red")
             sys.exit()
 
+    # Reading tree as string
     inData = open(treeName, "r").readlines()
     trees = []
     for line in inData:
@@ -114,6 +114,7 @@ same.\n  Quitting ...\n", "red")
             if l[0] != "#":
                 trees.append(line)
 
+    outList = []
     for treeStr in trees:
         # Reading tree by DendroPy
         tree = dendropy.Tree.get_from_string(treeStr, "newick")
@@ -140,10 +141,16 @@ same.\n  Quitting ...\n", "red")
         # Adding nodes to tree
         outTree = addNodeNumb(outTree)
 
-        # Saving output to file
-        outf = open(GSO.rmext(treeName)+".wHybrds.tre", "a")
-        outf.write(outTree+"\n")
-        outf.close()
+        # Adding tree to outList
+        outList.append(outTree)
+
+    # Saving output to file
+    if "," in parentInfo:
+        outf = open(GSO.rmext(treeName)+".wHybrid.tre", "w")
+    else:
+        outf = open(GSO.rmext(treeName)+".wSister.tre", "w")
+    outf.write("\n".join(outList))
+    outf.close()
 
 
 ###########
